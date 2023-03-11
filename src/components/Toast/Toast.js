@@ -18,8 +18,9 @@ const ICONS_BY_VARIANT = {
   error: AlertOctagon,
 };
 
-function Toast({variant, visible, setVisible, children}) {
+function Toast({variant, children}) {
   const Icon = ICONS_BY_VARIANT[variant]
+  const [visible, setVisible,] = React.useState(true)
 
   if(!visible) return(<></>)
   return (
