@@ -9,11 +9,10 @@ import styles from './ToastPlayground.module.css';
 // const VARIANT_OPTIONS = ['notice', 'warning', 'success', 'error'];
 
 function ToastPlayground() {
-  const {VARIANT_OPTIONS} = React.useContext(ToastContext)
+  const {VARIANT_OPTIONS, createToast} = React.useContext(ToastContext)
 
   const [message, setMessage] = React.useState('');
   const [variant, setVariant] = React.useState(VARIANT_OPTIONS[0])
-  const [toastStack, setToastStack] = React.useState([])
 
   const resetFormDefaults = () => {
     setMessage('')
@@ -22,14 +21,8 @@ function ToastPlayground() {
   
   const handleSubmit = (event)=>{
     event.preventDefault();
-    const newToastData = {id: Date.now(), message, variant}
-    setToastStack([...toastStack, newToastData])
+    createToast(message, variant)
     resetFormDefaults();
-  }
-  
-  const handleDismiss = (id)=>{
-    const newToastStack = toastStack.filter((toast)=>toast.id !== id)
-    setToastStack(newToastStack)
   }
 
   return (
@@ -38,7 +31,7 @@ function ToastPlayground() {
         <img alt="Cute toast mascot" src="/toast.png" />
         <h1>Toast Playground</h1>
       </header>
-      <ToastShelf toasts={toastStack} handleDismiss={handleDismiss} />
+      <ToastShelf />
       <form className={styles.controlsWrapper} onSubmit={handleSubmit}>
         <div className={styles.row}>
           <label
