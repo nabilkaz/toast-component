@@ -1,4 +1,5 @@
 import React from "react";
+import useKeyDown from "../../hooks/use-keydown";
 
 
 export const ToastContext = React.createContext();
@@ -16,16 +17,12 @@ function ToastProvider({children}) {
     const newToastData = {id: Date.now(), message, variant}
     setToastStack([...toastStack, newToastData])
   }  
-  React.useEffect(()=>{
-    const dismissWithEscape =  ({key})=>{
-      const EMPTY_STACK = toastStack.length === 0
-      const NOT_ESCAPE = key !=='Escape'
-      if(EMPTY_STACK || NOT_ESCAPE) return;
-      setToastStack([])
-    }
-    window.addEventListener('keydown', dismissWithEscape)
-    return(()=>{window.removeEventListener('keydown', dismissWithEscape)})
-  }, [toastStack])
+  
+  const dismissWithEscape =  React.useCallback(({key})=>{
+    setToastStack([])
+  }, [])
+
+  useKeyDown('Escape', dismissWithEscape)
 
   return <ToastContext.Provider value={{VARIANT_OPTIONS, toastStack, setToastStack, dismissToast, createToast}}>
     {children}

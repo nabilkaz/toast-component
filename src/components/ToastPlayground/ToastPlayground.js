@@ -6,7 +6,6 @@ import ToastShelf from '../ToastShelf/ToastShelf';
 
 import styles from './ToastPlayground.module.css';
 
-// const VARIANT_OPTIONS = ['notice', 'warning', 'success', 'error'];
 
 function ToastPlayground() {
   const {VARIANT_OPTIONS, createToast} = React.useContext(ToastContext)
